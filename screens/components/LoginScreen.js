@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { View, Text, TextInput, TouchableHighlight, Button, StyleSheet } from 'react-native'
 import { Base64 } from 'js-base64'
+import jwt_decode from "jwt-decode"
 
 
 
@@ -25,7 +26,6 @@ const LoginScreen = (props) => {
       console.log("Login successful")
       console.log("Received following JSON");
       console.log(json);
-
       props.onLoginReceiveJWT(json.jwt);
     })
     .catch(error => {

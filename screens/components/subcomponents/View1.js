@@ -7,8 +7,12 @@ const View1 = (props) => {
       <Text style={{ fontSize: 50, fontWeight: '700' }}>Application content</Text>
       <Text>You have successfully logged in</Text>
       <Button
-        title="Go to Todo List View"
-        onPress={() => props.navigation.navigate('Todos')}
+        title="Go to my postings"
+        onPress={() => props.navigation.navigate('MyPostings')}
+      />
+        <Button
+        title="Look for postings"
+        onPress={() => props.navigation.navigate('searchPostings')}
       />
       <Button
         title="Logout"

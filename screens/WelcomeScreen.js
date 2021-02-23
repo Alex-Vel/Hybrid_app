@@ -4,15 +4,16 @@ import * as SecureStore from 'expo-secure-store'
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
-
+import jwt_decode from 'jwt-decode';
 import LoginScreen from "./components/LoginScreen";
 import SignUpScreen from "./components/SignUpScreen";
 import SignUpCompleted from "./components/SignUpCompleted";
 import LoadingScreen from "./components/LoadingScreen";
-import TodoApp from "./components/TodoApp";
+import PostingsApp from "./components/PostingsApp";
 
 const Stack = createStackNavigator();
 const secureStoreTokenName = "emptyToken";
+const secureUserId = "emptyid";
 
 
 export default class WelcomeScreen extends Component {
@@ -23,22 +24,28 @@ export default class WelcomeScreen extends Component {
       isCheckingTokenStorage: true,
       activeJWT: null,
       apiURI: props.apiURI,
-      user_id
+      user_id: null,
     };
   }
+
 
   componentDidMount() {
     // Check for stored JWT when the application loads
     SecureStore.getItemAsync(secureStoreTokenName)
       .then(response => {
-        console.log("SecureStore.getItemAsync success")        
+        var decoded = jwt_decode(response);
+        console.log("setting user info with"+ decoded.user.id);
+        this.setState({user_id: decoded.user.id })
+        console.log("SecureStore get jwt success")        
         this.setState({ activeJWT: response, isCheckingTokenStorage: false })
+       
       })
       .catch(error => {
         console.log("SecureStore.getItemAsync error")
         console.log(error);
       });
-  }
+  } 
+
 
   
   onLoginReceiveJWT = (responseJWT) => {
@@ -46,16 +53,30 @@ export default class WelcomeScreen extends Component {
     SecureStore.setItemAsync(secureStoreTokenName, responseJWT)
       .then(response => {
         console.log(response);
-        this.setState({ activeJWT: responseJWT, isCheckingTokenStorage: false })
+        var decoded = jwt_decode(responseJWT);
+        console.log(decoded);
+        this.setState({ activeJWT: responseJWT, isCheckingTokenStorage: false, user_id: decoded.user.id })
+        console.log("user id is..");
+        console.log(decoded.user.id);
       })    
+
+
   }
 
-  setUser = (user_id) =>
+  setUserId = (jwt) =>
   {
-    
+    var decoded = jwt_decode(jwt);
+    console.log("setting user info with"+ decoded.user.id);
+    this.setState({user_id: decoded.user.id })
   }
 
   authLogic = () => {
+
+    const checkingForTokenStorage = (
+      <Stack.Screen name="Loading" component={LoadingScreen} />
+    )
+
+
     const authScreens = (
       <>
         <Stack.Screen
@@ -87,29 +108,24 @@ export default class WelcomeScreen extends Component {
 
     const app = (
       <Stack.Screen 
-        name="TodoApp" 
+        name="PostingsApp" 
         options={{
           headerShown: false,
         }}>
-          { props => <TodoApp 
+          { props => <PostingsApp 
                         {...props} 
                         jwt={ this.state.activeJWT } 
                         apiURI={ this.props.apiURI }
                         onLogout={ this.onLogout }
                         user_id={this.state.user_id}
-                      ></TodoApp>}
+                      ></PostingsApp>}
       </Stack.Screen>
-    )
-
-    
-
-    const checkingForTokenStorage = (
-      <Stack.Screen name="Loading" component={LoadingScreen} />
     )
 
     if(this.state.isCheckingTokenStorage)
     {
       console.log('Checking is token stored');
+
       return checkingForTokenStorage;
     }
     else
@@ -117,6 +133,7 @@ export default class WelcomeScreen extends Component {
       if(this.state.activeJWT != null)
       {
         console.log('JWT Token found, displaying application logged in views');
+        console.log(this.state.activeJWT);
         return app;
       }
       else
@@ -125,7 +142,7 @@ export default class WelcomeScreen extends Component {
         return authScreens;
       }
     }
-    console.error('Incorrect authLogic function processing');
+ 
   }
 
   onLogout = () => {
