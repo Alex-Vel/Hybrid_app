@@ -8,10 +8,8 @@ import WelcomeScreen from "./screens/WelcomeScreen";
 import MainScreen from "./screens/MainScreen";
 import Login from "./screens/LoginScreen";
 import Register from "./screens/RegisterScreen";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "react-native-vector-icons";
 
-const Tab = createBottomTabNavigator();
 
 function App() {
   //const Stack = createStackNavigator();
@@ -20,8 +18,26 @@ function App() {
   return (
     <View style={styles.container}>
       <NavigationContainer>
-        <Tab.Navigator>
-          <Tab.Screen
+      <WelcomeScreen apiURI={ "https://web-interfaces-test.herokuapp.com" }></WelcomeScreen>
+      </NavigationContainer>
+    </View>
+  );
+}
+
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    paddingTop: 18,
+  },
+});
+
+export default App;
+
+          {/* <Tab.Screen
             name="Main"
             options={{
              
@@ -43,20 +59,4 @@ function App() {
                 <Ionicons name="ios-list" color={color} size={size} />
               ),
             }}
-          />
-        </Tab.Navigator>
-      </NavigationContainer>
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    justifyContent: "center",
-    paddingTop: 18,
-  },
-});
-
-export default App;
+          /> */}

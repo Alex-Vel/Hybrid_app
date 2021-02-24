@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import { View, Text, TextInput, TouchableHighlight, Button, StyleSheet } from 'react-native'
 import { Base64 } from 'js-base64'
-import jwt_decode from "jwt-decode"
-
 
 
 const LoginScreen = (props) => {
@@ -51,12 +49,17 @@ const LoginScreen = (props) => {
         placeholder="password"
         onChangeText={ value => setPassword(value)}
       />
-      <TouchableHighlight onPress={ () => loginClick() }>
+      <TouchableHighlight style={{borderRadius:20}} onPress={ () => loginClick() }>
         <View style={ styles.primaryButton }>
           <Text style={ styles.primaryButtonText }>Login</Text>
         </View>
       </TouchableHighlight>
-      <Button title="Sign up" color="#000000" onPress={ () => props.navigation.navigate('Signup') } />
+  
+      <TouchableHighlight style={{borderRadius:20}}onPress={ () => props.navigation.navigate('Signup') }>
+        <View style={ styles.secondaryButton }>
+          <Text style={ styles.primaryButtonText }>Signup</Text>
+        </View>
+      </TouchableHighlight>
     </View>
   )
 }
@@ -96,8 +99,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: 'black',
     borderWidth: 2,
-    marginTop: 20,
-    marginBottom: 10
+
+    borderRadius:20
+  },
+  secondaryButton: {
+    backgroundColor: 'rgb(153, 51, 51)',
+    height: 60,
+    width: 200,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: 'black',
+    borderWidth: 2,
+
+    borderRadius:20
   },
   primaryButtonText: {
     color: 'white',

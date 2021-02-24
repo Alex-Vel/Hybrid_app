@@ -3,13 +3,13 @@ import { Button, View, Text,  ActivityIndicator } from "react-native";
 import * as SecureStore from 'expo-secure-store'
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-
 import jwt_decode from 'jwt-decode';
 import LoginScreen from "./components/LoginScreen";
 import SignUpScreen from "./components/SignUpScreen";
 import SignUpCompleted from "./components/SignUpCompleted";
 import LoadingScreen from "./components/LoadingScreen";
 import PostingsApp from "./components/PostingsApp";
+import { get } from "react-native/Libraries/Utilities/PixelRatio";
 
 const Stack = createStackNavigator();
 const secureStoreTokenName = "emptyToken";
@@ -29,22 +29,56 @@ export default class WelcomeScreen extends Component {
   }
 
 
+  // componentDidMount() {
+  //   // Check for stored JWT when the application loads
+  //   SecureStore.getItemAsync(secureStoreTokenName)
+  //     .then(response => {
+  //       console.log(response);
+  //       if(response != "emptyToken" && response != null){
+  //       console.log("SecureStore get jwt success") 
+  //       var decoded = jwt_decode(response);
+  //       console.log(decoded.iat * 1000);
+  //       console.log(decoded.exp * 1000);
+  //       console.log(Date.now());
+  //       if (Date.now() >= decoded.exp * 1000) {
+  //         this.setState({  isCheckingTokenStorage: false })
+  //       }
+  //       else
+  //       {
+  //       console.log("setting user info with"+ decoded.user.id);
+  //       this.setState({user_id: decoded.user.id })        
+  //       this.setState({ activeJWT: response, isCheckingTokenStorage: false })
+  //       }
+  //     }})
+  //     .catch(error => {
+  //       console.log("SecureStore.getItemAsync error")
+  //       console.log(error);
+  //     });
+  // } 
   componentDidMount() {
     // Check for stored JWT when the application loads
     SecureStore.getItemAsync(secureStoreTokenName)
       .then(response => {
-        var decoded = jwt_decode(response);
-        console.log("setting user info with"+ decoded.user.id);
-        this.setState({user_id: decoded.user.id })
-        console.log("SecureStore get jwt success")        
-        this.setState({ activeJWT: response, isCheckingTokenStorage: false })
-       
+        console.log("SecureStore.getItemAsync success") 
+        if(response != null){
+
+          var decoded = jwt_decode(response);
+          console.log(decoded.iat * 1000);
+          console.log(decoded.exp * 1000);
+          console.log(Date.now());
+            if (Date.now() <= decoded.exp * 1000) {
+            console.log("setting user info with"+ decoded.user.id); 
+            this.setState({ activeJWT: response, isCheckingTokenStorage: false,user_id: decoded.user.id  })
+            }
+            this.setState({isCheckingTokenStorage: false })
+        }    
+  
       })
       .catch(error => {
         console.log("SecureStore.getItemAsync error")
         console.log(error);
       });
-  } 
+  }
 
 
   
@@ -149,6 +183,7 @@ export default class WelcomeScreen extends Component {
     console.log("Logout clicked");
     this.setState({ activeJWT: null });
     SecureStore.deleteItemAsync(secureStoreTokenName);
+   
   }
 
   render() {
