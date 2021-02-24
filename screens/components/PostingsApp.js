@@ -6,6 +6,7 @@ import MyPostings from './subcomponents/MyPostings'
 import CreatePosting from './subcomponents/CreatePosting'
 import SearchPostings from './subcomponents/SearchPostings'
 import DetailedView from './subcomponents/DetailedView'
+import ImagePick from './subcomponents/ImagePick'
 import axios from "axios";
 import { get } from 'react-native/Libraries/Utilities/PixelRatio'
 
@@ -46,6 +47,7 @@ export default class PostingsApp extends Component {
     //   console.log(error.message)
     // });
     this.getPostings();
+    this.getFreshPostings();
   }
 
   
@@ -184,8 +186,14 @@ console.log('category: ' + category);
 
         <Stack.Screen name="DetailedView" options={{ title: 'Posting Details' }} >    
           {/* { props => <MyPostings {...props} postings={ this.state.postings } onPostingCreate={ this.onPostingCreate }/>} */}
-          { props => <DetailedView {...props} posting={this.state.selectedPosting}/>}
+          { props => <DetailedView {...props} jwt={this.props.jwt} apiURI={this.props.apiURI} posting={this.state.selectedPosting}/>}
         </Stack.Screen>
+
+        <Stack.Screen name="ImagePick" options={{ title: 'Posting Details' }} >    
+          {/* { props => <MyPostings {...props} postings={ this.state.postings } onPostingCreate={ this.onPostingCreate }/>} */}
+          { props => <ImagePick {...props} />}
+        </Stack.Screen>
+
 
         <Stack.Screen name="CreatePosting" options={{ title: 'Create a posting' }} >    
           {/* { props => <MyPostings {...props} postings={ this.state.postings } onPostingCreate={ this.onPostingCreate }/>} */}

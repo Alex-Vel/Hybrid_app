@@ -21,6 +21,13 @@ const View1 = (props) => {
         title="Look for postings"
         onPress={() => props.navigation.navigate('SearchPostings')}
       />
+
+      <Button
+        style={styles.Button}
+        title="pick an image"
+        onPress={() => props.navigation.navigate('ImagePick')}
+      />
+
       <Button
       style={styles.Button}
         title="Logout"
