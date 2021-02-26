@@ -54,10 +54,14 @@ console.log(this.props.posting.posting_id);
         "Authorization": "Bearer " + this.props.jwt,
     }})      
       .then(response => {
-        //handle success
-        console.log(response);
+        //success
         alert("Image upload completed");
         this.setState({ isSubmitting: false })
+        this.props.navigation.reset({
+          index: 0,
+          routes: [{ name: "AppConsole" }],
+        })
+        this.props.navigation.navigate("MyPostings");
     })
     .catch(response => {
         //handle error
@@ -67,34 +71,14 @@ console.log(this.props.posting.posting_id);
     });
 }
 
-//     axios({
-//       method: 'post',
-//       url: this.props.targetURI + "/postings/" + this.props.posting_id,
-//       data: postForm,
-//       headers: { 'Content-Type': 'multipart/form-data',  'Authorization': 'Bearer ' + this.props.jwt }
-//       })
-//       .then(response => {
-//           //handle success
-//           console.log(response);
-//           alert("Image upload completed");
-//           this.setState({ isSubmitting: false })
-//       })
-//       .catch(response => {
-//           //handle error
-//           console.log(response);
-//           alert("Image upload failed");
-//           this.setState({ isSubmitting: false })
-//       });
-//   }
 
   render() {
     return (
       <View>
-        <Text> Image Picker </Text>
-
+   
         { this.state.isSubmitting ? <ActivityIndicator /> :
-          <TouchableOpacity onPress={this.openImagePickerAsync} style={{ borderWidth: 1, borderColor: 'black'}}>
-          <Text>Pick a photo and start upload</Text>
+          <TouchableOpacity onPress={this.openImagePickerAsync} style={{ borderWidth: 1, borderColor: 'black', padding: 5}}>
+          <Text>Choose a photo to upload to this posting</Text>
         </TouchableOpacity>
         }
 

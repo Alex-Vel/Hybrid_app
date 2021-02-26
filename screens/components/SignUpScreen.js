@@ -7,7 +7,7 @@ import {
   TextInput,
   TouchableHighlight,
 } from "react-native";
-import axios from "axios";
+
 
 const SignUpScreen = (props) => {
   const [username, setUsername] = useState("");
@@ -77,42 +77,47 @@ const SignUpScreen = (props) => {
         placeholder="password"
         onChangeText={(value) => setPassword(value)}
       />
-      <Text>Please enter your password</Text>
+      <Text>Please enter your location</Text>
       <TextInput
         style={styles.input}
         value={location}
         placeholder="location"
         onChangeText={(value) => setLocation(value)}
       />
-      <Text>Please enter your password</Text>
+      <Text>Please enter your birth date</Text>
+
       <TextInput
         style={styles.input}
         value={birth_date}
-        placeholder="birth_date"
+        placeholder="DD-MM-YYYY"
+        keyboardType = {'numeric'}
         onChangeText={(value) => setBirthDate(value)}
       />
+      
       <TouchableHighlight onPress={() => signupPressed()}>
         <View style={styles.primaryButton}>
           <Text style={styles.primaryButtonText}>Sign up</Text>
         </View>
       </TouchableHighlight>
-      <Button
-        title="Cancel"
-        color="#000000"
-        onPress={() =>
+
+
+      <TouchableHighlight         onPress={() =>
           props.navigation.reset({
             index: 0,
             routes: [{ name: "Login" }],
           })
-        }
-      />
+        }>
+        <View style={styles.secondaryButton}>
+          <Text style={styles.primaryButtonText}>Cancel</Text>
+        </View>
+      </TouchableHighlight>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   screen: {
-    backgroundColor: "rgb(227, 178, 0)",
+  
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
@@ -120,11 +125,11 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 40,
     marginBottom: 20,
-    color: "white",
+    color: "black",
   },
   text: {
     fontSize: 20,
-    color: "white",
+    color: "black",
   },
   input: {
     borderWidth: 1,
@@ -137,6 +142,18 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 20,
   },
+  secondaryButton: {
+    backgroundColor: "rgb(153, 51, 51)",
+    height: 60,
+    width: 200,
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: "black",
+    borderRadius:20,
+    borderWidth: 2,
+    marginTop: 20,
+    marginBottom: 10,
+  },
   primaryButton: {
     backgroundColor: "rgb(0, 153, 51)",
     height: 60,
@@ -144,6 +161,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderColor: "black",
+    borderRadius:20,
     borderWidth: 2,
     marginTop: 20,
     marginBottom: 10,

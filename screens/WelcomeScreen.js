@@ -9,6 +9,7 @@ import SignUpScreen from "./components/SignUpScreen";
 import SignUpCompleted from "./components/SignUpCompleted";
 import LoadingScreen from "./components/LoadingScreen";
 import PostingsApp from "./components/PostingsApp";
+import GuestView from "./components/GuestView"
 import { get } from "react-native/Libraries/Utilities/PixelRatio";
 
 const Stack = createStackNavigator();
@@ -25,43 +26,21 @@ export default class WelcomeScreen extends Component {
       activeJWT: null,
       apiURI: props.apiURI,
       user_id: null,
+      guest: false,
     };
   }
+  guestClick()
+  {
+    this.setState({ guest : true  })
+  }
 
-
-  // componentDidMount() {
-  //   // Check for stored JWT when the application loads
-  //   SecureStore.getItemAsync(secureStoreTokenName)
-  //     .then(response => {
-  //       console.log(response);
-  //       if(response != "emptyToken" && response != null){
-  //       console.log("SecureStore get jwt success") 
-  //       var decoded = jwt_decode(response);
-  //       console.log(decoded.iat * 1000);
-  //       console.log(decoded.exp * 1000);
-  //       console.log(Date.now());
-  //       if (Date.now() >= decoded.exp * 1000) {
-  //         this.setState({  isCheckingTokenStorage: false })
-  //       }
-  //       else
-  //       {
-  //       console.log("setting user info with"+ decoded.user.id);
-  //       this.setState({user_id: decoded.user.id })        
-  //       this.setState({ activeJWT: response, isCheckingTokenStorage: false })
-  //       }
-  //     }})
-  //     .catch(error => {
-  //       console.log("SecureStore.getItemAsync error")
-  //       console.log(error);
-  //     });
-  // } 
   componentDidMount() {
     // Check for stored JWT when the application loads
     SecureStore.getItemAsync(secureStoreTokenName)
       .then(response => {
-        console.log("SecureStore.getItemAsync success") 
+      
         if(response != null){
-
+          console.log("SecureStore.getItemAsync success") 
           var decoded = jwt_decode(response);
           console.log(decoded.iat * 1000);
           console.log(decoded.exp * 1000);
@@ -70,9 +49,9 @@ export default class WelcomeScreen extends Component {
             console.log("setting user info with"+ decoded.user.id); 
             this.setState({ activeJWT: response, isCheckingTokenStorage: false,user_id: decoded.user.id  })
             }
-            this.setState({isCheckingTokenStorage: false })
+    
         }    
-  
+        this.setState({isCheckingTokenStorage: false,  guest: false })
       })
       .catch(error => {
         console.log("SecureStore.getItemAsync error")
@@ -97,6 +76,13 @@ export default class WelcomeScreen extends Component {
 
   }
 
+  
+  onLogout = () => {
+    console.log("Logout clicked");
+    this.setState({ activeJWT: null });
+    SecureStore.deleteItemAsync(secureStoreTokenName);
+  }
+
   setUserId = (jwt) =>
   {
     var decoded = jwt_decode(jwt);
@@ -119,7 +105,7 @@ export default class WelcomeScreen extends Component {
             headerShown: false,
           }}
         >
-          { props => <LoginScreen {...props} onLoginReceiveJWT={ this.onLoginReceiveJWT } apiURI={ this.props.apiURI }></LoginScreen> }
+          { props => <LoginScreen {...props} guestClick={this.guestClick} onLoginReceiveJWT={ this.onLoginReceiveJWT } apiURI={ this.props.apiURI }></LoginScreen> }
         </Stack.Screen>
         <Stack.Screen
           name="Signup"
@@ -153,7 +139,7 @@ export default class WelcomeScreen extends Component {
                         onLogout={ this.onLogout }
                         user_id={this.state.user_id}
                       ></PostingsApp>}
-      </Stack.Screen>
+        </Stack.Screen>
     )
 
     if(this.state.isCheckingTokenStorage)
@@ -179,19 +165,21 @@ export default class WelcomeScreen extends Component {
  
   }
 
-  onLogout = () => {
-    console.log("Logout clicked");
-    this.setState({ activeJWT: null });
-    SecureStore.deleteItemAsync(secureStoreTokenName);
-   
-  }
 
   render() {
     return (
       <View style={{ flex: 1}}>
-   
           <Stack.Navigator>
+
             { this.authLogic() }
+            <Stack.Screen
+          name="GuestView"
+                  options={{
+          headerShown: false,
+        }}
+        >
+          { props => <GuestView {...props}   apiURI={ this.props.apiURI }></GuestView>}
+        </Stack.Screen>
           </Stack.Navigator>
   
       </View>

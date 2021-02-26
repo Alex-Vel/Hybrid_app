@@ -5,9 +5,6 @@ import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import WelcomeScreen from "./screens/WelcomeScreen";
-import MainScreen from "./screens/MainScreen";
-import Login from "./screens/LoginScreen";
-import Register from "./screens/RegisterScreen";
 import { Ionicons } from "react-native-vector-icons";
 
 
@@ -31,7 +28,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     justifyContent: "center",
-    paddingTop: 18,
   },
 });
 

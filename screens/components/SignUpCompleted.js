@@ -17,7 +17,7 @@ const SignUpCompleted = (props) => {
 
 const styles = StyleSheet.create({
   screen: {
-    backgroundColor: 'rgb(227, 178, 0)',
+    
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'

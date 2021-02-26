@@ -11,7 +11,7 @@ const LoadingScreen = () => {
 
 const styles = StyleSheet.create({
   screen: {
-    backgroundColor: 'rgb(51, 153, 255)',
+
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
