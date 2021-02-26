@@ -17,6 +17,13 @@ const SignUpScreen = (props) => {
   const [location, setLocation] = useState("");
 
   function signupPressed() {
+    if(!username || !password || !email || !birth_date || !location)
+    {
+      alert("please fill in all the boxes")
+    }
+    else
+    {
+
     fetch(props.apiURI + "/users", {
       method: "POST",
       body: JSON.stringify({
@@ -32,12 +39,14 @@ const SignUpScreen = (props) => {
     })
       .then((response) => {
         if (response.ok == false) {
-          throw new Error(
-            "HTTP Code " +
-              response.status +
-              " - " +
-              JSON.stringify(response.json())
-          );
+          alert("Username already exists")
+          // throw new Error(
+          //   "HTTP Code " +
+          //     response.status +
+          //     " - " +
+          //     JSON.stringify(response.json())
+          // );
+          return;
         }
         return response.json();
       })
@@ -52,6 +61,7 @@ const SignUpScreen = (props) => {
         console.log(error.message);
       });
   }
+}
 
   return (
     <View style={styles.screen}>
@@ -60,14 +70,14 @@ const SignUpScreen = (props) => {
       <TextInput
         style={styles.input}
         value={username}
-        placeholder="johndoe"
+        placeholder="username"
         onChangeText={(value) => setUsername(value)}
       />
       <Text>Please enter your email</Text>
       <TextInput
         style={styles.input}
         value={email}
-        placeholder="test@email.com"
+        placeholder="email"
         onChangeText={(value) => setEmail(value)}
       />
       <Text>Please enter your password</Text>

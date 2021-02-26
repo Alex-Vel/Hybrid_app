@@ -12,6 +12,17 @@ const CreatePosting = (props) => {
   const [postingPrice, setPostingPrice] = useState(""); 
   const [postingShipping, setPostingShipping] = useState(""); 
   
+
+  function handleCreate(postingTitle,postingDescription,postingLocation,postingCategory,postingPrice, postingShipping)
+  {
+    if(!postingTitle || !postingDescription || !postingLocation || !postingPrice || !postingShipping || !postingCategory){
+    alert("please fill in all the boxes");
+    }
+    else{
+      props.onPostingCreate(postingTitle,postingDescription,postingLocation,postingCategory,postingPrice, postingShipping);
+    }
+  }
+
   return (
  
     <View style={{ alignItems: 'center', flex: 1, marginTop: 30, flexDirection:"column"}}>        
@@ -93,7 +104,7 @@ const CreatePosting = (props) => {
 
 
            
-          <TouchableHighlight style={ {flex: 1, width:"100%",  backgroundColor: 'blue'}} onPress={ () => props.onPostingCreate(postingTitle,postingDescription,postingLocation,postingCategory,postingPrice, postingShipping) }>
+          <TouchableHighlight style={ {flex: 1, width:"100%",  backgroundColor: 'blue'}} onPress={ () => handleCreate(postingTitle,postingDescription,postingLocation,postingCategory,postingPrice, postingShipping  ) }>
             <View style={ {flex: 1, width:"100%",  backgroundColor: 'blue',} }>
               <Text style={{ color: 'white', padding: 10,fontSize:24, textAlign:'center' }}>Make the Posting</Text>
             </View>

@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 40,
     marginBottom: 20,
-    color: 'white'
+    color: 'black'
   },
   text: {
     fontSize: 20,

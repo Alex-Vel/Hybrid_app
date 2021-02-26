@@ -7,30 +7,6 @@ const LoginScreen = (props) => {
   const [userName, setUserName] = useState("Tester2");
   const [password, setPassword] = useState("password123");
 
-  function loginClick() {
-    fetch(props.apiURI + '/users/login', {
-      method: 'GET',
-      headers: {
-        "Authorization": "Basic " + Base64.encode(userName + ":" + password)
-      }
-    })
-    .then(response => {
-      if (response.ok == false) {
-        throw new Error("HTTP Code " + response.status + " - " + JSON.stringify(response.json()));
-      }
-      return response.json();
-    })
-    .then(json => {
-      console.log("Login successful")
-      console.log("Received following JSON");
-      console.log(json);
-      props.onLoginReceiveJWT(json.jwt);
-    })
-    .catch(error => {
-      console.log("Error message:")
-      console.log(error.message)
-    });
-  }
 
   function loginClick() {
     fetch(props.apiURI + '/users/login', {
@@ -41,7 +17,9 @@ const LoginScreen = (props) => {
     })
     .then(response => {
       if (response.ok == false) {
-        throw new Error("HTTP Code " + response.status + " - " + JSON.stringify(response.json()));
+        alert("Invalid username or password")
+     //   throw new Error("HTTP Code " + response.status + " - " + JSON.stringify(response.json()));
+        
       }
       return response.json();
     })
@@ -52,6 +30,7 @@ const LoginScreen = (props) => {
       props.onLoginReceiveJWT(json.jwt);
     })
     .catch(error => {
+      alert("Invalid username or password")
       console.log("Error message:")
       console.log(error.message)
     });

@@ -92,6 +92,7 @@ export default class PostingsApp extends Component {
     .catch(error => {
       console.log("Error message:")
       console.log(error.message)
+      this.setState({ postings: []})
     });
   }
 
@@ -150,9 +151,12 @@ export default class PostingsApp extends Component {
         throw new Error("HTTP Code " + response.status + " - " + JSON.stringify(response.json()));
       }
       else{
-      console.log("Delete succes");
+        this.props.navigation.reset({
+          index: 0,
+          routes: [{ name: "AppConsole" }],
+        })
       this.props.navigation.navigate("MyPostings")
-    }
+      }
     })
     .catch(error => {
       console.log("Error message:")
@@ -186,6 +190,10 @@ export default class PostingsApp extends Component {
         throw new Error("HTTP Code " + response.status + " - " + JSON.stringify(response.json()));
       }
       else{
+        this.props.navigation.reset({
+          index: 0,
+          routes: [{ name: "AppConsole" }],
+        })
       this.props.navigation.navigate("MyPostings")
       }
     })
@@ -237,6 +245,7 @@ viewEditView = (posting_id) => {
     }
     this.setState({selectedPosting: response.data})
     console.log(response.data)
+    
     this.props.navigation.navigate('EditPosting');
 })
 .catch(error => {

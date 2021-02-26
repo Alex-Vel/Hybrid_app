@@ -63,7 +63,7 @@ export default class GuestView extends Component {
       });
       } 
   //get postings by creation date
-  getFreshPostings()
+  getFreshPostings = () =>
   {
     console.log('getting fresh postings');
     axios.get(this.props.apiURI + '/postings/fresh')

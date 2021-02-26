@@ -16,14 +16,17 @@ export default function SinglePosting(props) {
       <View style={{ flex: 1, flexDirection: "column" }}>
         <Text style={{fontWeight:'bold'}}>{props.title}</Text>
         <Text>{props.description}</Text>
-        <Text>Category: </Text>
+        <Text style={{fontWeight:'bold'}}>Category: </Text>
         <Text>{props.category}</Text>
+        <Text style={{fontWeight:'bold'}}>location: </Text>
+        <Text>{props.location}</Text>
       </View>
       <View style={{ flex: 1, flexDirection: "column" }}>
-        <Text>Shipping method: </Text>
+      <Text style={{fontWeight:'bold'}}>Shipping method: </Text>
         <Text>{props.shipping_method}</Text>
-        <Text>Asking price: </Text>
+        <Text style={{fontWeight:'bold'}}>Asking price: </Text>
         <Text>{props.price + " € "}</Text>
+
 
       </View>
       </>
